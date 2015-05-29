@@ -1,0 +1,525 @@
+﻿//------------default------------------
+//general colors
+$background: #1d1d1d;
+$foreground: #ededed;
+$foreground_disabled: fade-out(desaturate($foreground, 50%), 0.5);
+
+//menu colors
+$bgMenu: #3d3d3d;
+$borderMenu: lighten($bgMenu, 20%);
+$hoverMenu: lighten($bgMenu, 10%);
+$shadowMenu: #0d0d0d;
+
+
+
+//------------light theme------------------
+//general colors
+$background_light: #ededed;
+$foreground_light: #1d1d1d;
+$foreground_disabled_light: fade-out(desaturate($foreground_light, 50%), 0.5);
+
+//menu colors
+$bgMenu_light: #c8c8c8;
+$borderMenu_light: darken($bgMenu_light, 20%);
+$hoverMenu_light: darken($bgMenu_light, 10%);
+$shadowMenu_light: #d8d8d8;
+
+
+$colors: ( primary: (default: #9bbd1a, light: #849f1b),
+           secondary: #da532c,
+           tertiary: #2d89ef,
+           success: #40b71f,
+           warning: (default: #ffc40d, light: #ed9d10),
+           failure: #ea2828,
+           accent: (default: #18c4d5, light: #00939e));
+
+@mixin border-box-sizing {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+@mixin no-user-select {
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -ms-touch-action: none;
+    touch-action: none;
+}
+
+body {
+    background: $background;
+    color: $foreground;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    //avoid black body in fullscreen mode in some browsers
+    width: 100%;
+    height: 100%;
+
+    &.light {
+        background: $background_light;
+        color: $foreground_light;
+    }
+}
+
+h1 {
+    font-size: 3em;
+    font-weight: lighter;
+}
+
+h2 {
+    font-size: 2em;
+    font-weight: lighter;
+}
+
+h3 {
+    font-size: 1.43em;
+    font-weight: normal;
+}
+
+h4 {
+    font-size: 1.14em;
+    font-weight: normal;
+}
+
+h5 {
+    font-size: 0.9em;
+    font-weight: normal;
+}
+
+h6 {
+    font-size: 0.75em;
+    font-weight: normal;
+}
+
+hr {
+    border-style: solid;
+    border-width: 1px 0 0;
+    border-color: #686868;
+
+    body.light & {
+        border-color: #a8a8a8;
+    }
+}
+
+code {
+    background: #4c4c4c;
+    display: inline-block;
+    padding: 2px 6px;
+
+    body.light & {
+        background: #dcdcdc;
+    }
+}
+
+a {
+    color: map-get($colors, "secondary");
+}
+
+%buttonCommon {
+    border: none;
+    cursor: pointer;
+    outline: none;
+    color: $foreground;
+    background-color: transparent;
+    @include no-user-select();
+    overflow: hidden;
+    white-space: normal;
+    vertical-align: top;
+    -moz-transition: -moz-transform 0.1s linear;
+    -o-transition: -o-transform 0.1s linear;
+    -webkit-transition: -webkit-transform 0.1s linear;
+    transition: transform 0.1s linear;
+    font-size: 12pt;
+    font-weight: 500;
+    min-width: 52px;
+    width: auto;
+    padding: 8px 14px;
+    line-height: 18px;
+
+    &:not(.fa) {
+        font-family: inherit;
+    }
+
+    &.fa {
+        font-size: 16pt;
+        font-weight: normal;
+        width: 52px;
+        line-height: normal;
+        padding: 8px 0;
+    }
+
+    body.light & {
+        color: $foreground_light;
+    }
+
+    &:focus,
+    &:hover {
+        outline: none;
+    }
+
+    &::-moz-focus-inner {
+        border-color: transparent;
+    }
+
+    &:active {
+        -moz-transform: scale(0.95);
+        -ms-transform: scale(0.95);
+        -o-transform: scale(0.95);
+        -webkit-transform: scale(0.95);
+        transform: scale(0.95);
+    }
+
+    &[disabled], &.disabled {
+        cursor: default;
+        color: $foreground_disabled !important;
+        background-color: transparent !important;
+
+        body.light & {
+            color: $foreground_disabled_light !important;
+        }
+    }
+}
+
+%menuButton {
+    @extend %buttonCommon;
+
+    &:focus,
+    &:hover,
+    &.selected {
+        background-color: $hoverMenu;
+
+        body.light & {
+            background-color: $hoverMenu_light;
+        }
+    }
+}
+
+.menu {
+    position: fixed;
+    background: $bgMenu;
+    box-shadow: $shadowMenu 0 0 8px 4px;
+    border: 1px solid $borderMenu;
+    margin: 8px;
+    padding: 0;
+    @include no-user-select();
+    z-index: 1;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    -moz-transition-timing-function: ease;
+    -o-transition-timing-function: ease;
+    -webkit-transition-timing-function: ease;
+    transition-timing-function: ease;
+    -moz-transition-duration: 0.1s;
+    -o-transition-duration: 0.1s;
+    -webkit-transition-duration: 0.1s;
+    transition-duration: 0.1s;
+    -moz-transition-property: visibility, opacity;
+    -o-transition-property: visibility, opacity;
+    -webkit-transition-property: visibility, opacity;
+    transition-property: visibility, opacity;
+    visibility: hidden;
+    opacity: 0;
+
+    &.visible {
+        visibility: visible;
+        opacity: 1;
+    }
+
+    &.top {
+        top: 0;
+    }
+
+    &.bottom {
+        bottom: 0;
+    }
+
+    &.left {
+        left: 0;
+    }
+
+    &.right {
+        right: 0;
+    }
+
+    body.light & {
+        background: $bgMenu_light;
+        box-shadow: $shadowMenu_light 0 0 8px 4px;
+        border: 1px solid $borderMenu_light;
+    }
+
+    .divider {
+        width: 30px;
+        padding: 0;
+        margin: 0;
+    }
+
+    button {
+        @extend %menuButton;
+        margin: 0;
+        height: 36px;
+        -ms-flex: none;
+        flex: none;
+    }
+
+    .sub-menu {
+        overflow: auto;
+        position: absolute;
+        background-color: inherit;
+        border: inherit;
+        @include no-user-select();
+        -moz-transition-timing-function: ease;
+        -o-transition-timing-function: ease;
+        -webkit-transition-timing-function: ease;
+        transition-timing-function: ease;
+        -moz-transition-duration: 0.3s;
+        -o-transition-duration: 0.3s;
+        -webkit-transition-duration: 0.3s;
+        transition-duration: 0.3s;
+        -moz-transition-property: visibility, opacity, -moz-transform;
+        -o-transition-property: visibility, opacity, -o-transform;
+        -webkit-transition-property: visibility, opacity, -webkit-transform;
+        transition-property: visibility, opacity, transform;
+        visibility: hidden;
+        opacity: 0;
+        -moz-transform: translateY(-10px);
+        -ms-transform: translateY(-10px);
+        -o-transform: translateY(-10px);
+        -webkit-transform: translateY(-10px);
+        transform: translateY(-10px);
+        width: auto;
+        left: -1px;
+        right: -1px;
+        display: -webkit-flex;
+        display: -moz-flex;
+        display: -ms-flex;
+        display: -o-flex;
+        display: flex;
+        -ms-flex-flow: row wrap;
+        flex-flow: row wrap;
+
+        @at-root .menu.bottom {
+
+            .sub-menu {
+                -moz-transform: translateY(10px);
+                -ms-transform: translateY(10px);
+                -o-transform: translateY(10px);
+                -webkit-transform: translateY(10px);
+                transform: translateY(10px);
+            }
+        }
+
+        &.visible {
+            visibility: visible;
+            opacity: 1;
+            -moz-transform: translateY(0);
+            -ms-transform: translateY(0);
+            -o-transform: translateY(0);
+            -webkit-transform: translateY(0);
+            transform: translateY(0);
+        }
+
+        &.popup {
+            display: inline-block;
+            padding: 4px;
+        }
+
+        &.list {
+            width: auto;
+            max-width: 100%;
+            right: auto;
+
+            ul {
+                overflow: auto;
+                list-style: none;
+                margin: 0;
+                padding: 0;
+
+                li {
+                    @extend %menuButton;
+                    overflow: hidden;
+                    -ms-text-overflow: ellipsis;
+                    -o-text-overflow: ellipsis;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    margin: 0;
+                    display: block;
+
+                    &.line {
+                        pointer-events: none;
+                        padding: 0;
+                        cursor: default;
+
+                        &:active {
+                            -moz-transform: none !important;
+                            -ms-transform: none !important;
+                            -o-transform: none !important;
+                            -webkit-transform: none !important;
+                            transform: none !important;
+                        }
+
+                        &:focus,
+                        &:hover {
+                            background-color: transparent !important;
+                        }
+
+                        hr {
+                            margin: 0;
+                            border-style: solid;
+                            border-width: 1px 0 0;
+                            border-color: $foreground;
+
+                            body.light & {
+                                border-color: $foreground_light;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.button {
+    @extend %buttonCommon;
+    margin: 4px;
+    border: 2px solid $foreground;
+
+    body.light & {
+        border-color: $foreground_light;
+    }
+
+    &:focus,
+    &:hover {
+        background-color: lighten($background, 10%);
+
+        body.light & {
+            background-color: darken($background_light, 10%);
+        }
+    }
+
+    &[disabled], &.disabled {
+        border-color: $foreground_disabled !important;
+
+        body.light & {
+            border-color: $foreground_disabled_light !important;
+        }
+    }
+
+    &.ghost {
+        border: none;
+
+        &:focus,
+        &:hover {
+            background-color: transparent;
+            color: lighten($foreground, 10%);
+
+            body.light & {
+                background-color: transparent;
+                color: darken($foreground_light, 5%);
+            }
+        }
+    }
+}
+
+.marker {
+    display: inline-block;
+    min-width: 22px;
+    min-height: 2px;
+    padding: 2px;
+    text-align: center;
+    font-size: 0.8em;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: default;
+    margin: 4px 2px;
+    color: $foreground;
+
+    .menu > & {
+        margin: 0;
+        min-width: 2px;
+    }
+}
+
+/*#region colors */
+
+//explicity named %buttonCommon to ensure that the default color is overridden
+@each $colorname, $color in $colors {
+
+    $color_light: null;
+
+    @if (type-of($color) == map) {
+        $color_light: map-get($color, "light");
+        $color: map-get($color, "default");
+    }
+    @else {
+        $color_light: $color;
+    }
+
+
+    .marker.#{$colorname} {
+        background: $color;
+
+        body.light & {
+            background: $color_light;
+        }
+    }
+
+    %buttonCommon.#{$colorname},
+    .#{$colorname} {
+        border-color: $color;
+        color: $color;
+
+        body.light & {
+            border-color: $color_light;
+            color: $color_light;
+        }
+
+
+        &.ghost {
+
+            &:focus,
+            &:hover {
+                color: lighten($color, 10%);
+
+                body.light & {
+                    color: darken($color_light, 5%);
+                }
+            }
+        }
+    }
+}
+
+/*#endregion */
+
+
+@media only screen and (min-width: 450px) {
+
+    .phone-visible {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+
+    .phone-hidden {
+        display: none;
+    }
+
+    %buttonCommon {
+
+        &.fa {
+            width: 43px;
+        }
+    }
+}

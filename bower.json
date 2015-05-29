@@ -1,0 +1,19 @@
+{
+  "name": "EssentiCells",
+  "version": "0.0.1",
+  "homepage": "https://github.com/tklepzig/EssentiCells",
+  "authors": [
+    "Thomas Klepzig"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4"
+  }
+}
