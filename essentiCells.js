@@ -137,8 +137,10 @@ var ec = (function ($)
 
         $(window).resize(centerMenu);
 
+        // TODO: call centerMenu also on DOM changes --> MutationObserver
+
         //sub-menu handling
-        $("[data-sub-menu-id]").on("click", function ()
+        $(".menu").on("click", "[data-sub-menu-id]", function ()
         {
             module.toggleSubMenu($(this).data("sub-menu-id"));
         });

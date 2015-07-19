@@ -1,5 +1,9 @@
 {
   "name": "essenticells",
+  "main": [
+      "./essentiCells.min.js",
+      "./essentiCells.min.css"
+  ],
   "homepage": "https://github.com/tklepzig/EssentiCells",
   "authors": [
     "Thomas Klepzig"
